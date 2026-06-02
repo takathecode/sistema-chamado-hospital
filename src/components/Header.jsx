@@ -149,4 +149,4 @@ function Header({ tickets, currentUser, onLogout, onSearch }) {
   );
 }
 
-export default Header;
+export default Header;  
