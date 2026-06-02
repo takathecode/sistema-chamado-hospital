@@ -110,9 +110,9 @@ function Header({ tickets, currentUser, onLogout, onSearch }) {
             }}
           >
             <div className="avatar">
-              <span>{currentUser?.name?.split(' ').map(n => n[0]).join('') || 'FT'}</span>
+              <span>{currentUser?.nome?.split(' ').map(n => n[0]).join('') || 'U'}</span>
             </div>
-            <span className="user-name">{currentUser?.name || 'Felippe Takahashi'}</span>
+            <span className="user-name">{currentUser?.nome || 'Usuário'}</span>
             <ChevronDown size={16} />
           </div>
 
@@ -120,11 +120,11 @@ function Header({ tickets, currentUser, onLogout, onSearch }) {
             <div className="user-dropdown">
               <div className="user-dropdown-header">
                 <div className="avatar-large">
-                  <span>{currentUser?.name?.split(' ').map(n => n[0]).join('') || 'FT'}</span>
+                  <span>{currentUser?.nome?.split(' ').map(n => n[0]).join('') || 'U'}</span>
                 </div>
                 <div>
-                  <span className="dropdown-user-name">{currentUser?.name || 'Felippe Takahashi'}</span>
-                  <span className="dropdown-user-role">{currentUser?.role || 'Administrador'}</span>
+                  <span className="dropdown-user-name">{currentUser?.nome || 'Usuário'}</span>
+                  <span className="dropdown-user-role">{currentUser?.cargo || 'Cargo'}</span>
                 </div>
               </div>
               <div className="dropdown-divider"></div>
