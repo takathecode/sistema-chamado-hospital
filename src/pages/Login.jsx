@@ -9,43 +9,29 @@ import {
 } from 'lucide-react';
 import '../styles/login.css';
 
-function Login({ onLogin }) {
-  const [username, setUsername] = useState('');
+function Login({ onLogin, error: externalError }) {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
+  const [internalError, setInternalError] = useState('');
   const [loading, setLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
-  const handleSubmit = (e) => {
+  const error = externalError || internalError;
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setInternalError('');
     setLoading(true);
 
-    setTimeout(() => {
-      if (username === 'admin' && password === 'admin123') {
-        onLogin({
-          name: 'Felippe Takahashi',
-          role: 'Administrador',
-          email: 'felippe.takahashi@hospital.com'
-        });
-      } else if (username === 'tecnico' && password === 'tecnico123') {
-        onLogin({
-          name: 'Carlos Silva',
-          role: 'Técnico',
-          email: 'carlos.silva@hospital.com'
-        });
-      } else if (username === 'mariana' && password === 'mariana123') {
-        onLogin({
-          name: 'Mariana Souza',
-          role: 'Técnica',
-          email: 'mariana.souza@hospital.com'
-        });
-      } else {
-        setError('Usuário ou senha inválidos. Tente novamente.');
-        setLoading(false);
-      }
-    }, 1000);
+    try {
+      // Chama a função handleLogin passada via props do App.jsx
+      await onLogin(email, password);
+    } catch (err) {
+      setInternalError(err.message || 'Usuário ou senha inválidos. Tente novamente.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -104,16 +90,16 @@ function Login({ onLogin }) {
 
             <form onSubmit={handleSubmit} className="login-form">
               <div className="form-group">
-                <label htmlFor="username">Usuário</label>
+                <label htmlFor="email">E-mail</label>
                 <div className="input-wrapper">
                   <input
-                    id="username"
-                    type="text"
-                    placeholder="Digite seu usuário"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    id="email"
+                    type="email"
+                    placeholder="Digite seu e-mail"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     required
-                    autoComplete="username"
+                    autoComplete="email"
                   />
                 </div>
               </div>
@@ -172,15 +158,15 @@ function Login({ onLogin }) {
             </form>
 
             <div className="login-help">
-              <p>Credenciais de demonstração:</p>
+              <p>Credenciais do Banco de Dados:</p>
               <div className="demo-credentials">
                 <div className="credential-card">
                   <span className="cred-role">Administrador</span>
-                  <code>admin / admin123</code>
+                  <code>admin@hospital.com / 123456</code>
                 </div>
                 <div className="credential-card">
                   <span className="cred-role">Técnico</span>
-                  <code>tecnico / tecnico123</code>
+                  <code>carlos@hospital.com / 123456</code>
                 </div>
               </div>
             </div>
